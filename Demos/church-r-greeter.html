@@ -13,7 +13,7 @@
         font-family: 'Dancing Script', cursive;
       }
       /*Make button 50px tall by 150px wide and make font size 14pt*/
-      #btn-hello
+      button
       {
         height: 50px;
         width: 150px;
@@ -37,10 +37,14 @@
       const userOutput = document.querySelector("#output");
       userOutput.style.color = "red";
       userOutput.style.backgroundColor = "yellow";
-      // 1 - get a reference to the button
+      // 1 - get a reference to the hello button
       const helloBtn = document.querySelector("#btn-hello");
+      // 1A - get a reference to the goodbye button
+      const byeBtn = document.querySelector("#btn-goodbye");
       // 2 - add a click event to button that calls a `sayHello` function
       helloBtn.onclick = sayHello;
+      // 2A - add a click event to goodbye button that calls a `sayGoodbye` funtion
+      byeBtn.onclick = sayGoodbye;
       // 3 - create a `sayHello()` function
       function sayHello()
       {
@@ -55,15 +59,34 @@
           {
             name = "Peter";
           }*/
-          // 3C - update HTML of #output <p>
-          userOutput.innerHTML = `${firstName} ${lastName}`;
-      } 
+          // 3B - update HTML of #output <p>
+          userOutput.innerHTML = `Hello ${firstName} ${lastName}!`;
+      }
+      // 4 - create a `sayGoodbye` function
+      function sayGoodbye()
+      {
+          // 4A - get name of person from the <input>
+          let firstName = document.querySelector("#input-firstname").value.trim() || "Peter";
+          let lastName = document.querySelector("#input-lastname").value.trim() || "Parker";
+          /*if(!name)
+          {
+            name = "Peter";
+          }*/
+          /*if(name.length === 0)
+          {
+            name = "Peter";
+          }*/
+          // 4B - update HTML of #output <p>
+          userOutput.innerHTML = `Goodbye ${firstName} ${lastName}!`;
+      }
     }
     
     </script>
   </head>
 <body>
   <button id="btn-hello">Say Hello!</button>
+  <br>
+  <button id="btn-goodbye">Say Goodbye!</button>
   <input id="input-firstname" placeholder="Type in your first name">
   <input id="input-lastname" placeholder="Type in your last name">
   <p id="output">???</p>
