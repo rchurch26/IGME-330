@@ -37,20 +37,34 @@
       const userOutput = document.querySelector("#output");
       userOutput.style.color = "red";
       userOutput.style.backgroundColor = "yellow";
+
+
       // 1 - get a reference to the hello button
       const helloBtn = document.querySelector("#btn-hello");
       // 1A - get a reference to the goodbye button
       const byeBtn = document.querySelector("#btn-goodbye");
+
+
       // 2 - add a click event to button that calls a `sayHello` function
-      helloBtn.onclick = sayHello;
+      //helloBtn.onclick = function()
+      //{
+        //greet("Hello");
+      //}
+      helloBtn.onclick = () => greet("Hello");
       // 2A - add a click event to goodbye button that calls a `sayGoodbye` funtion
-      byeBtn.onclick = sayGoodbye;
+      //byeBtn.onclick = function()
+      //{
+        //greet("Goodbye");
+      //}
+      byeBtn.onclick = () => greet("Goodbye");
+
+
       // 3 - create a `sayHello()` function
-      function sayHello()
-      {
+      //function sayHello()
+      //{
           // 3A - get name of person from the <input>
-          let firstName = document.querySelector("#input-firstname").value.trim() || "Peter";
-          let lastName = document.querySelector("#input-lastname").value.trim() || "Parker";
+          //let firstName = document.querySelector("#input-firstname").value.trim();
+          //let lastName = document.querySelector("#input-lastname").value.trim();
           /*if(!name)
           {
             name = "Peter";
@@ -59,15 +73,20 @@
           {
             name = "Peter";
           }*/
+          //name = name.length ? name : "Peter"
+          //firstName = firstName || "Peter";
+          //lastName = lastName || "Parker";
           // 3B - update HTML of #output <p>
-          userOutput.innerHTML = `Hello ${firstName} ${lastName}!`;
-      }
+          //userOutput.innerHTML = `Hello ${firstName} ${lastName}!`;
+      //}
+
+
       // 4 - create a `sayGoodbye` function
-      function sayGoodbye()
-      {
+      //function sayGoodbye()
+      //{
           // 4A - get name of person from the <input>
-          let firstName = document.querySelector("#input-firstname").value.trim() || "Peter";
-          let lastName = document.querySelector("#input-lastname").value.trim() || "Parker";
+          //let firstName = document.querySelector("#input-firstname").value.trim();
+          //let lastName = document.querySelector("#input-lastname").value.trim();
           /*if(!name)
           {
             name = "Peter";
@@ -76,8 +95,19 @@
           {
             name = "Peter";
           }*/
+          //firstName = firstName || "Peter";
+          //lastName = lastName || "Parker";
           // 4B - update HTML of #output <p>
-          userOutput.innerHTML = `Goodbye ${firstName} ${lastName}!`;
+          //userOutput.innerHTML = `Goodbye ${firstName} ${lastName}!`;
+      //}
+
+      function greet(greeting)
+      {
+        let firstName = document.querySelector("#input-firstname").value.trim();
+        let lastName = document.querySelector("#input-lastname").value.trim();
+        firstName = firstName || "Peter";
+        lastName = lastName || "Parker";
+        userOutput.innerHTML = `${greeting} ${firstName} ${lastName}!`;
       }
     }
     
