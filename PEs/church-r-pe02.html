@@ -44,24 +44,13 @@
       userOutput.style.backgroundColor = "yellow";
 
 
-      // 1 - get a reference to the hello button
+      // Get a reference to the hello button
       const helloBtn = document.querySelector("#btn-hello");
-      // 1A - get a reference to the goodbye button
+      // Get a reference to the goodbye button
       const byeBtn = document.querySelector("#btn-goodbye");
-
       const shoutCheck = document.querySelector("#shout");
 
-      // 2 - add a click event to button that calls a `sayHello` function
-      //helloBtn.onclick = function()
-      //{
-        //greet("Hello");
-      //}
       helloBtn.onclick = () => greet("Hello");
-      // 2A - add a click event to goodbye button that calls a `sayGoodbye` funtion
-      //byeBtn.onclick = function()
-      //{
-        //greet("Goodbye");
-      //}
       byeBtn.onclick = () => greet("Goodbye");
 
       const greet = greeting =>
@@ -80,48 +69,6 @@
         }
         shoutify();
       }
-
-      // 3 - create a `sayHello()` function
-      //function sayHello()
-      //{
-          // 3A - get name of person from the <input>
-          //let firstName = document.querySelector("#input-firstname").value.trim();
-          //let lastName = document.querySelector("#input-lastname").value.trim();
-          /*if(!name)
-          {
-            name = "Peter";
-          }*/
-          /*if(name.length === 0)
-          {
-            name = "Peter";
-          }*/
-          //name = name.length ? name : "Peter"
-          //firstName = firstName || "Peter";
-          //lastName = lastName || "Parker";
-          // 3B - update HTML of #output <p>
-          //userOutput.innerHTML = `Hello ${firstName} ${lastName}!`;
-      //}
-
-
-      // 4 - create a `sayGoodbye` function
-      //function sayGoodbye()
-      //{
-          // 4A - get name of person from the <input>
-          //let firstName = document.querySelector("#input-firstname").value.trim();
-          //let lastName = document.querySelector("#input-lastname").value.trim();
-          /*if(!name)
-          {
-            name = "Peter";
-          }*/
-          /*if(name.length === 0)
-          {
-            name = "Peter";
-          }*/
-          //firstName = firstName || "Peter";
-          //lastName = lastName || "Parker";
-          // 4B - update HTML of #output <p>
-          //userOutput.innerHTML = `Goodbye ${firstName} ${lastName}!`;
-      //}
     }
     
     </script>
