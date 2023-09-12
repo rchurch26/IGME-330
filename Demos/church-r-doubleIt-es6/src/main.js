@@ -1,6 +1,8 @@
 //"use strict";
 
 import {doubleIt} from "./utils.js";
+//import doubleIt from "./utils.js";
+//import * as utils from "./utils.js";
 
 const init = () => {
   // hook up UI
@@ -13,6 +15,7 @@ const init = () => {
     // so we need to convert it to a `Number`
     const num = Number(numberField.value.trim()) || 0;
     const doubledNum = doubleIt(num);
+    //const doubledNum = utils.doubleIt(num);
     output.innerHTML = `${num} doubled is ${doubledNum}`;
   };
 };
