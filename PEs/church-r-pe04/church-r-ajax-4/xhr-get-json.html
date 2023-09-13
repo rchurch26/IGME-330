@@ -30,28 +30,39 @@
         xhr.onload = (e) =>
         {
             console.log(`In onload - HTTP Status Code = ${e.target.status}`);
-            const text = e.target.responseText;
             let json;
             try
             {
-                json = JSON.parse(text);
+                json = JSON.parse(e.target.responseText);
             }
             catch
             {
                 document.querySelector("#output").innerHTML = "JSON.parse() failed!";
                 return;
             }
+
+            // const keys = Object.keys(json);
+            // let html = "";
+            // for(let k of keys)
+            // {
+            //     const obj = json[k];
+            //     html += `<h3>${obj.title}</h3>`;
+            //     html += `<ol>${obj.namelist.map(w => `<li>${w}</li>`).join("")}</ol>`;
+            // }
+
             const dogNames = json.dognames;
             const catNames = json.catnames;
-            //const birdNames = xml.querySelector("namelist[cid='birdnames']").textContent.split(",");
+            const birdNames = json.birdnames;
             const dogHtml = `<ol>${dogNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
             const catHtml = `<ol>${catNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
-            // const birdHtml = `<ol>${birdNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
+            const birdHtml = `<ol>${birdNames.map(w => `<li>${w}</li>`).join("")}</ol>`;
             const html = `
             <h3>Dog Names</h3>
             ${dogHtml}
             <h3>Cat Names</h3>
             ${catHtml}
+            <h3>Bird Names</h3>
+            ${birdHtml}
             `;
             document.querySelector("#output").innerHTML = html;
         };
