@@ -8,18 +8,18 @@ body
     font-size: 200%;
 }
 
-#myButton
+#my-button
 {
     width: 200pt;
     height: 50pt;
     font-size: 15pt;
 }
 
-#higherBabbles
+#higher-babbles
 {
     display: none;
     width: 200pt;
-    height: 75pt;
+    height: 50pt;
     font-size: 15pt;
 }
 
@@ -123,7 +123,7 @@ body
         margin: 2rem;
     }
 
-    #higherBabbles
+    #higher-babbles
     {
         display: inline;
     }
