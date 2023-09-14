@@ -1,6 +1,8 @@
-"use strict";
-	
-	const words1 = ["Acute", "Aft", "Anti-matter", "Bipolar", "Cargo", "Command", "Communication", "Computer", "Deuterium", "Dorsal", "Emergency", "Engineering", "Environmental", "Flight", "Fore", "Guidance", "Heat", "Impulse", "Increased", "Inertial", "Infinite", "Ionizing", "Isolinear", "Lateral", "Linear", "Matter", "Medical", "Navigational", "Optical", "Optimal", "Optional", "Personal", "Personnel", "Phased", "Reduced", "Science", "Ship's", "Shuttlecraft", "Structural", "Subspace", "Transporter", "Ventral"];
+import {getRandomWord} from "./utils.js";
+
+const init = () =>
+{
+    const words1 = ["Acute", "Aft", "Anti-matter", "Bipolar", "Cargo", "Command", "Communication", "Computer", "Deuterium", "Dorsal", "Emergency", "Engineering", "Environmental", "Flight", "Fore", "Guidance", "Heat", "Impulse", "Increased", "Inertial", "Infinite", "Ionizing", "Isolinear", "Lateral", "Linear", "Matter", "Medical", "Navigational", "Optical", "Optimal", "Optional", "Personal", "Personnel", "Phased", "Reduced", "Science", "Ship's", "Shuttlecraft", "Structural", "Subspace", "Transporter", "Ventral"];
 	
 	const words2 = ["Propulsion", "Dissipation", "Sensor", "Improbability", "Buffer", "Graviton", "Replicator", "Matter", "Anti-matter", "Organic", "Power", "Silicon", "Holographic", "Transient", "Integrity", "Plasma", "Fusion", "Control", "Access", "Auto", "Destruct", "Isolinear", "Transwarp", "Energy", "Medical", "Environmental", "Coil", "Impulse", "Warp", "Phaser", "Operating", "Photon", "Deflector", "Integrity", "Control", "Bridge", "Dampening", "Display", "Beam", "Quantum", "Baseline", "Input"];
 	
@@ -8,13 +10,8 @@
 
     generateBabbles();
 
-    document.querySelector("#myButton").onclick = generateBabbles;
-    document.querySelector("#higherBabbles").onclick = generateBabbles;
-
-    function getRandomWord(array)
-    {
-        return array[Math.floor(Math.random() * array.length)];
-    }
+    document.querySelector("#my-button").onclick = generateBabbles;
+    document.querySelector("#higher-babbles").onclick = generateBabbles;
 
     function generateBabbles(num=1)
     {
@@ -26,3 +23,5 @@
             document.querySelector("#output").innerHTML += `\n${babble}`;
         }
     }
+}
+init();
