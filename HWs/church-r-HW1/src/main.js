@@ -1,16 +1,22 @@
-import {getRandomWord} from "./utils.js";
+import {getRandomWord, loadBabble} from "./utils.js";
 
-generateBabbles();
+let words1 = [];
+let words2 = [];
+let words3 = [];
 
-document.querySelector("#my-button").onclick = () => 
+const babbleLoaded = json => 
 {
-    generateBabbles();
+    words1 = json.words1;
+    words2 = json.words2;
+    words3 = json.words3;
+    document.querySelector("#output").innerHTML = `${getRandomWord(words1)} ${getRandomWord(words2)} ${getRandomWord(words3)}`;
 }
-document.querySelector("#higher-babbles").onclick = () => 
-{
-    generateBabbles(5);
-}
-function generateBabbles(num=1)
+loadBabble(babbleLoaded);
+
+document.querySelector("#my-button").onclick = () => generateBabbles(1);
+document.querySelector("#higher-babbles").onclick = () => generateBabbles(5);
+
+const generateBabbles = num =>
 {
     document.querySelector("#output").innerHTML = "";
     // const babble = `${getRandomWord(words1)} ${getRandomWord(words2)} ${getRandomWord(words3)}`;

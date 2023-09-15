@@ -1,6 +1,6 @@
 const getRandomWord = (array) => array[Math.floor(Math.random() * array.length)];
 
-const loadBabble = () =>
+const loadBabble = callback =>
 {
     const url = "data/babble-data.json";
     const xhr = new XMLHttpRequest();
@@ -17,11 +17,11 @@ const loadBabble = () =>
             document.querySelector("#output").innerHTML = "JSON.parse() failed!";
             return;
         }
-
-        const words1 = json.words1;
-        const words2 = json.words2;
-        const words3 = json.words3;
+        callback(json);
     }
+    xhr.onerror = e => console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
+    xhr.open("GET", url);
+    xhr.send();
 }
 
-export {getRandomWord};
+export {getRandomWord, loadBabble};
