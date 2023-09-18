@@ -1,10 +1,10 @@
-const getRandomWord = (array) => array[Math.floor(Math.random() * array.length)];
+const getRandomWord = array => array[Math.floor(Math.random() * array.length)];
 
 const loadBabble = callback =>
 {
     const url = "data/babble-data.json";
     const xhr = new XMLHttpRequest();
-    xhr.onload = (e) =>
+    xhr.onload = e =>
     {
         console.log(`In onload - HTTP Status Code = ${e.target.status}`);
         let json;
