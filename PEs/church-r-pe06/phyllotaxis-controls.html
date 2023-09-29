@@ -6,7 +6,7 @@
 	<style>canvas{ border: 1px solid black; }</style>
 	<script>
 	"use strict";
-	const canvasWidth = 400, canvasHeight = 300;
+	const canvasWidth = 640, canvasHeight = 640;
 	let ctx;
     let n = 0;
     let divergence = 137.6;
@@ -47,12 +47,21 @@
 		ctx.fillRect(0,0,canvasWidth,canvasHeight);
         document.querySelector("button").onclick = () => 
         {
+            let backColors = document.querySelector("#colors");
+            let chosenColor;
+            for(let c of backColors)
+            {
+                if(c.selected)
+                {
+                    chosenColor = c.value;
+                }
+            }
             n = 0;
             divergence = 137.6;
             c = 4;
             petalSize = 1;
             ctx.save();
-            ctx.fillStyle = "rgb(0,0,0,0.2)";
+            ctx.fillStyle = chosenColor;
             ctx.fillRect(0,0,canvasWidth,canvasHeight);
             ctx.restore();
         }
@@ -82,6 +91,17 @@
 <canvas id="canvas"></canvas>
 <br>
 <button>Restart</button>
-
+<label for="colors">Choose a background color</label>
+<select name="colors" id="colors">
+    <option value="black">Black</option>
+    <option value="orange">Orange</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+</select>
+<p>
+    I decided to have the divergence increase by 2 while the c value increased by .0005 and the petal size increased by .005.<br>
+    The restart button resets all the variables to their default values and I also added a select that allows users to change the background color everytime they restart the loop.<br>
+    The freamrate has been increased to 60fps and the screen is now 640 x 640.
+</p>
 </body>
 </html>
