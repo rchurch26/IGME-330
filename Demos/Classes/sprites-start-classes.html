@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Sprites Start</title>
+	<style>canvas{ border: 1px solid black; }</style>
+	<script>
+	
+        "use strict";
+
+        class CircleSprite{
+            static type = "arc"; // demoing a static (class) variable here
+            constructor(x,y,radius,color){
+                console.log(`${this.constructor.type} created`); // access static property (alternatively, CircleSprite.type)
+                // YOU DO THIS - initialize .x, .y, .radius and .color properties
+                Object.assign(this, {x,y,radius,color});
+            }
+            
+            update(){
+                // YOU DO THIS - increase the .x, and .y properties by 1
+                this.x += 1;
+                this.y += 1;
+                if(this.x >= canvasWidth)
+                {
+                    this.x = 0;
+                }
+                else if(this.x <= 0)
+                {
+                    this.x = canvasWidth;
+                }
+                if(this.y >= canvasHeight)
+                {
+                    this.y = 0;
+                }
+                else if(this.y <= 0)
+                {
+                    this.y = canvasHeight;
+                }
+            }
+            
+            draw(ctx){
+                // YOU DO THIS 
+                // fill a circle - utilize the ctx argument, and the .x, .y, .radius and .color properties
+                // don't forget about ctx.save() and ctx.restore()
+                ctx.save();
+                ctx.beginPath();
+                ctx.fillStyle = this.color;
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+            }
+
+        const canvasWidth = 640, canvasHeight = 480;
+	
+        let ctx;
+        const sprites = [];
+
+	const loop = () => {
+          setTimeout(loop, 1000/60);
+          ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+          sprites.forEach(s =>
+          {
+            s.update();
+            s.draw(ctx);
+          })
+	}
+	
+	const init = () => {
+          ctx = canvas.getContext("2d");
+          canvas.width = canvasWidth;
+          canvas.height = canvasHeight;
+          sprites.push(new CircleSprite(50,100,69,"orange"));
+          sprites.push(new CircleSprite(100,150,26,"red"));
+          console.log(sprites);
+          loop();
+	};
+	
+	window.onload = init;
+
+    // Define the class
+    class Thing{
+    constructor(type){
+        this.type = type;
+    }
+    sayHello(){
+        console.log(`I am a ${this.constructor.name} of type=${this.type}`);
+    }
+    }
+
+    // Create an instance of that class
+    let thing = new Thing("Slimy");
+    console.log(thing); // Thing {type: 'Slimy'}
+    console.log(thing.sayHello()); // I am a Thing of type=Slimy
+
+    //Anonymous Class to Variable
+    const Thing2 = class{
+    constructor(type){
+        this.type = type;
+    }
+    sayHello(){
+        console.log(`I am a ${this.constructor.name} of type=${this.type}`);
+    }
+    };
+
+    // gives us the same thing
+    let thing2 = new Thing2("Smelly");
+    console.log(thing2); // Thing2 {type: 'Smelly'}
+    console.log(thing2.sayHello()); // I am a Thing2 of type=Smelly
+
+    //Function Constructor
+    function Thing3(type){
+    this.type = type;
+    }
+
+    Thing3.prototype.sayHello = function(){
+    console.log(`I am a ${this.constructor.name} of type=${this.type}`);
+    };
+
+    let thing3 = new Thing3("Stinky");
+    console.log(thing3); // Thing3 {type: 'Stinky'}
+    console.log(thing3.sayHello()); // I am a Thing3 of type=Stinky
+
+    //Object Literal
+    const thing4 = {
+    "type" : "Slippery",
+    sayHello(){
+        console.log(`I am a ${this.constructor.name} of type=${this.type}`);
+    }
+    };
+
+    console.log(thing4); // {type: 'Slippery', sayHello: ƒ}
+    console.log(thing4.sayHello()); // I am a Object of type=Slippery
+
+    //Inheritence
+    // NEW
+    class AlienThing extends Thing{
+    constructor(type, alignment){
+        super(type); // call superclass constructor in Thing
+        this.alignment = alignment;
+    }
+    fireDeathRay(){
+        console.log(`Feel the power of my ${this.alignment} ray!`);
+    }
+    }
+
+    let alien = new AlienThing("Slinky","Evil");
+    console.log(alien); // AlienThing {type: 'Slinky', alignment: 'Evil'}
+    console.log(alien.sayHello()); // I am a AlienThing of type=Slinky
+    console.log(alien.fireDeathRay()); // Feel the power of my Evil ray!
+	</script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+
+</body>
+</html>
