@@ -18,6 +18,8 @@
 
 		let ctx = document.querySelector('canvas').getContext('2d');
         let rotation = 0;
+		let movingX = 0;
+		const canvasWidth = 640;
 		loop();
 	
 		function loop(){
@@ -91,6 +93,17 @@
 			ctx.closePath();
 			ctx.stroke();
             ctx.restore();
+
+			//draw rotating triangle with helper function
+			drawTriangle(ctx,0,-100,100,100,-100,100,rotation*4.0,"orange","black",7);
+			
+			//draw another square that moves right
+			drawSquare2(ctx,movingX,240,100,100,rotation*1.5,"gray",0.5);
+			movingX += 5;
+			if(movingX > canvasWidth)
+			{
+				movingX = 0;
+			}
 		}
 		
 
@@ -113,6 +126,24 @@
         // the old state attributes are restored, ctx is 
         // as it was before this function was called
         }
+
+		function drawTriangle(ctx,x1,y1,x2,y2,x3,y3,rotation,strokeStyle,fillStyle,lineWidth)
+		{
+			ctx.save();
+			ctx.translate(0,0);
+			ctx.rotate(rotation);
+			ctx.strokeStyle = strokeStyle;
+			ctx.fillStyle = fillStyle;
+			ctx.lineWidth = lineWidth;
+			ctx.beginPath();
+			ctx.moveTo(x1,y1);
+			ctx.lineTo(x2,y2);
+			ctx.lineTo(x3,y3);
+			ctx.closePath();
+			ctx.stroke();
+			ctx.fill();
+			ctx.restore();
+		}
 	</script>
 </body>
 </html>
