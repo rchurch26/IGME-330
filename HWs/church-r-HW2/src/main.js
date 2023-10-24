@@ -11,24 +11,33 @@ import * as utils from './utils.js';
 import * as audio from './audio.js';
 import * as visualizer from './visualizer.js';
 
+let title, sounds, info;
+
 const drawParams = 
 {
-  showGradient  : true,
   showBars      : true,
   showCircles   : true,
-  showNoise     : false,
-  showInvert    : false,
-  showEmboss    : false
+  showWaveform  : false
 };
+
+const dataLoaded = json =>
+{
+  ({title, sounds, info} = json);
+}
+
+utils.loadData(dataLoaded);
 
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
 	sound1  :  "media/New Adventure Theme.mp3"
 });
 
-function init(){
+const init = () => {
 	console.log("init called");
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
+  document.querySelector("#title").innerHTML = title;
+  document.querySelector("#select-track").innerHTML = sounds.map(s => `<option value="${s.file}">${s.name}</option>`).join("");
+  document.querySelector("#info").innerHTML = `<p>${info}</p>`;
   audio.setupWebaudio(DEFAULTS.sound1);
 	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 	setupUI(canvasElement);
@@ -36,23 +45,21 @@ function init(){
   loop();
 }
 
-function setupUI(canvasElement){
+const setupUI = canvasElement => {
   // A - hookup fullscreen button
-  const fsButton = document.querySelector("#fsButton");
+  const fsButton = document.querySelector("#btn-fs");
   // B - hookup play button
-  const playButton = document.querySelector("#playButton");
+  const playButton = document.querySelector("#btn-play");
   // C - hookup volume slider & label
-  let volumeSlider = document.querySelector("#volumeSlider");
-  let volumeLabel = document.querySelector("#volumeLabel");
+  let volumeSlider = document.querySelector("#slider-volume");
+  let volumeLabel = document.querySelector("#label-volume");
   //D - hookup track <select>
-  let trackSelect = document.querySelector("#trackSelect");
+  let trackSelect = document.querySelector("#select-track");
+
+  let waveSelect = document.querySelector("#select-form");
   //Hookup checkboxes
-  let gradientCB = document.querySelector("#gradientCB");
-  let barsCB = document.querySelector("#barsCB");
-  let circlesCB = document.querySelector("#circlesCB");
-  let noiseCB = document.querySelector("#noiseCB");
-  let invertCB = document.querySelector("#invertCB");
-  let embossCB = document.querySelector("#embossCB");
+  let barsCB = document.querySelector("#cb-bars");
+  let circlesCB = document.querySelector("#cb-circles");
 	
   // add .onclick event to button
   fsButton.onclick = e => {
@@ -105,13 +112,14 @@ function setupUI(canvasElement){
         playButton.dispatchEvent(new MouseEvent("click"));
     }
   }
+
+  waveSelect.onchange = e =>
+  {
+    if(e.target.value == "waveform-data") drawParams.showWaveform = true;
+    else drawParams.showWaveform = false;
+  }
 	
   //Add .onclick event to checkboxes
-  gradientCB.onclick = e =>
-  {
-    if(gradientCB.checked) drawParams.showGradient = true;
-    else drawParams.showGradient = false;
-  }
   barsCB.onclick = e =>
   {
     if(barsCB.checked) drawParams.showBars = true;
@@ -122,26 +130,19 @@ function setupUI(canvasElement){
     if(circlesCB.checked) drawParams.showCircles = true;
     else drawParams.showCircles = false;
   }
-  noiseCB.onclick = e =>
+  document.querySelector("#cb-treble").onchange = e =>
   {
-    if(noiseCB.checked) drawParams.showNoise = true;
-    else drawParams.showNoise = false;
+    audio.toggleTreble(e.target.checked);
   }
-  invertCB.onclick = e =>
+  document.querySelector("#cb-bass").onchange = e =>
   {
-    if(invertCB.checked) drawParams.showInvert = true;
-    else drawParams.showInvert = false;
-  }
-  embossCB.onclick = e =>
-  {
-    if(embossCB.checked) drawParams.showEmboss = true;
-    else drawParams.showEmboss = false;
+    audio.toggleBass(e.target.checked);
   }
 } // end setupUI
 
 function loop(){
     /* NOTE: This is temporary testing code that we will delete in Part II */
-        requestAnimationFrame(loop);
+        setTimeout(loop, 100/60);
         visualizer.draw(drawParams);
 }
 

@@ -9,8 +9,42 @@
 
 import * as utils from './utils.js';
 
-let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
+class shapeSprite
+{
+	constructor(x,y,radius,color)
+	{
+		Object.assign(this, {x,y,radius,color});
+		this.speed = 1;
+	}
 
+	update()
+	{
+		this.x += this.speed;
+		if(this.x >= canvasWidth)
+		{
+			this.x = 0;
+		}
+		else if(this.x <= 0)
+		{
+			this.x = canvasWidth;
+		}
+	}
+
+	draw(ctx)
+	{
+		ctx.save();
+		ctx.beginPath();
+		ctx.fillStyle = this.color;
+		ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+		ctx.closePath();
+		ctx.fill();
+		ctx.restore();
+	}
+}
+
+let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
+let formSelect = document.querySelector("#select-form");
+const sprites = [];
 
 const setupCanvas = (canvasElement,analyserNodeRef) => {
 	// create drawing context
@@ -23,14 +57,21 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 	analyserNode = analyserNodeRef;
 	// this is the array where the analyser data will be stored
 	audioData = new Uint8Array(analyserNode.fftSize/2);
+	//Create Sprites
+	sprites.push(new shapeSprite(0,100,10,"orange"));
+	sprites.push(new shapeSprite(0,300,7,"red"));
 }
 
 const draw = (params={}) => {
+	let avgLoudness = 0;
   // 1 - populate the audioData array with the frequency data from the analyserNode
 	// notice these arrays are passed "by reference" 
 	//analyserNode.getByteFrequencyData(audioData);
 	// OR
-	analyserNode.getByteTimeDomainData(audioData); // waveform data
+	//analyserNode.getByteTimeDomainData(audioData); // waveform data
+	
+	if(params.showWaveform) analyserNode.getByteTimeDomainData(audioData);
+	else analyserNode.getByteFrequencyData(audioData);
 	
 	// 2 - draw background
 	ctx.save();
@@ -38,17 +79,12 @@ const draw = (params={}) => {
     ctx.globalAlpha = 0.1;
     ctx.fillRect(0,0,canvasWidth,canvasHeight);
     ctx.restore();
-		
-	// 3 - draw gradient
-    if(params.showGradient)
-    {
-        ctx.save();
-        ctx.fillStyle = gradient;
-        ctx.globalAlpha = 0.3;
-        ctx.fillRect(0,0,canvasWidth,canvasHeight);
-        ctx.restore();
-    }
-	
+
+	//Get average loudness
+	for(let i=0; i<audioData.length; i++)
+		{
+			avgLoudness += audioData[i];
+		}
 	// 4 - draw bars
 	if(params.showBars)
 	{
@@ -67,6 +103,7 @@ const draw = (params={}) => {
 		{
 			ctx.fillRect(margin + i * (barWidth + barSpacing),topSpacing + 256-audioData[i],barWidth,barHeight);
 			ctx.strokeRect(margin + i * (barWidth + barSpacing),topSpacing + 256-audioData[i],barWidth,barHeight);
+			//Possibly draw sprites
 		}
 		ctx.restore();
 	}
@@ -107,61 +144,15 @@ const draw = (params={}) => {
 		}
 		ctx.restore();
 	}
-
-	// 6 - bitmap manipulation
-	// TODO: right now. we are looping though every pixel of the canvas (320,000 of them!), 
-	// regardless of whether or not we are applying a pixel effect
-	// At some point, refactor this code so that we are looping though the image data only if
-	// it is necessary
-
-	// A) grab all of the pixels on the canvas and put them in the `data` array
-	// `imageData.data` is a `Uint8ClampedArray()` typed array that has 1.28 million elements!
-	// the variable `data` below is a reference to that array 
-	let imageData = ctx.getImageData(0,0,canvasWidth,canvasHeight);
-	let data = imageData.data;
-	let length = data.length;
-	let width = imageData.width; //not using here
-	
-	// B) Iterate through each pixel, stepping 4 elements at a time (which is the RGBA for 1 pixel)
-	for(let i = 0; i < length; i++)
-	{
-		// C) randomly change every 20th pixel to red
-		if(params.showNoise && Math.random() < .05)
+	avgLoudness = avgLoudness/audioData.length;
+	console.log(avgLoudness);
+	sprites.forEach(s =>
 		{
-			// data[i] is the red channel
-			// data[i+1] is the green channel
-			// data[i+2] is the blue channel
-			// data[i+3] is the alpha channel
-			data[i] = data[i+1] = data[i+2] = 0; // zero out the red and green and blue channels
-			data[i] = 255; // make the red channel 100% red
-			data[i+1] = 165;
-			data[i+2] = 0;
-		} // end if
-
-		//Invert
-		if(params.showInvert)
-		{
-			let red = data[i], green = data[i+1], blue = data[i+2];
-			data[i] = 255 - red;
-			data[i+1] = 255 - green;
-			data[i+2] = 255 - blue;
-			//data[i+3] is alpha
-		}
-	} // end for
-	
-	//Emboss
-	if(params.showEmboss)
-	{
-		//Stepping through each sub-pixel
-		for(let i = 0; i < length; i++)
-		{
-			if(i%4 == 3) continue; //skip alpha
-			data[i] = 127 + 2*data[i] - data[i+4] - data[i + width * 4];
-		}
-	}
-
-	// D) copy image data back to canvas	
-	ctx.putImageData(imageData,0,0);
+			s.speed = 1 + avgLoudness/50;
+			s.radius = 10 + avgLoudness/10;
+			s.update();
+			s.draw(ctx);
+		})
 }
 
 export {setupCanvas,draw};

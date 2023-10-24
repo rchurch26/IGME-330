@@ -3,7 +3,7 @@ let audioCtx;
 
 // **These are "private" properties - these will NOT be visible outside of this module (i.e. file)**
 // 2 - WebAudio nodes that are part of our WebAudio audio routing graph
-let element, sourceNode, analyserNode, gainNode;
+let element, sourceNode, analyserNode, gainNode, trebleBiquadFilter, bassBiquadFilter;
 
 // 3 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
@@ -51,8 +51,20 @@ the amplitude of that frequency.
     gainNode = audioCtx.createGain();
     gainNode.gain.value = DEFAULTS.gain;
 
+    //Create Treble BiquadFilter
+    trebleBiquadFilter = audioCtx.createBiquadFilter();
+    trebleBiquadFilter.type = "highshelf";
+    trebleBiquadFilter.frequency.setValueAtTime(1000,audioCtx.currentTime);
+    
+    //Create Bass BiquadFilter
+    bassBiquadFilter = audioCtx.createBiquadFilter();
+    bassBiquadFilter.type = "lowshelf";
+    bassBiquadFilter.frequency.setValueAtTime(1000,audioCtx.currentTime);
+
 // 8 - connect the nodes - we now have an audio graph
-    sourceNode.connect(analyserNode);
+    sourceNode.connect(trebleBiquadFilter);
+    trebleBiquadFilter.connect(bassBiquadFilter);
+    bassBiquadFilter.connect(analyserNode);
     analyserNode.connect(gainNode);
     gainNode.connect(audioCtx.destination);
 }
@@ -69,4 +81,26 @@ const setVolume = value =>
     gainNode.gain.value = value;
 }
 
-export{audioCtx,setupWebaudio,playCurrentSound,pauseCurrentSound,loadSoundFile,setVolume,analyserNode};
+const toggleTreble = treble =>
+{
+    if(treble)
+    {
+        trebleBiquadFilter.gain.setValueAtTime(25, audioCtx.currentTime);
+    }else
+    {
+        trebleBiquadFilter.gain.setValueAtTime(0, audioCtx.currentTime);
+    }
+}
+
+const toggleBass = bass =>
+{
+    if(bass)
+    {
+        bassBiquadFilter.gain.setValueAtTime(15, audioCtx.currentTime);
+    }else
+    {
+        bassBiquadFilter.gain.setValueAtTime(0, audioCtx.currentTime);
+    }
+}
+
+export{audioCtx,setupWebaudio,playCurrentSound,pauseCurrentSound,loadSoundFile,setVolume,analyserNode,trebleBiquadFilter,bassBiquadFilter,toggleTreble,toggleBass};

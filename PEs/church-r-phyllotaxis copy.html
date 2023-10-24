@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Sine Start</title>
+	<style>canvas{ border: 1px solid black; }</style>
+	<script>
+	"use strict";
+
+    class PhylloFlower
+    {
+        constructor(centerX,centerY,divergence,c,lifetime=100)
+        {
+            // this.centerX = centerX;
+            // this.centerY = centerY;
+            // this.divergence = divergence;
+            // this.c = c;
+            Object.assign(this,{centerX,centerY,divergence,c,lifetime});
+            this.petalSize = 1;
+        }
+        
+        // helpers
+        dtr(degrees){
+            return degrees * (Math.PI/180);
+        }
+
+        drawCircle(ctx,x,y,radius,color){
+            ctx.save();
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x,y,radius,0,Math.PI * 2);
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        draw(ctx)
+        {
+            // each frame draw a new dot
+            // `a` is the angle
+            // `r` is the radius from the center (e.g. "Pole") of the flower
+            // `c` is the "padding/spacing" between the dots
+            for(let n=0; n < this.lifetime; n++)
+            {
+                let a = n * this.dtr(this.divergence);
+                let r = this.c * Math.sqrt(n);
+                // console.log(a,r);
+                // now calculate the `x` and `y`
+                let x = r * Math.cos(a) + this.centerX;
+                let y = r * Math.sin(a) + this.centerY;
+                //console.log(x,y);
+                //drawCircle(ctx,x,y,2,"white");
+                //let color = `rgb(${n % 256},0,255)`;
+                // let aDegrees = (n * divergence) % 256;
+                // let color = `rgb(${aDegrees},0,255)`;
+                let aDegrees = (n * this.divergence) % 361;
+                let color = `hsl(${aDegrees},100%,50%)`;
+                //let color = `hsl(${n/5 % 361},100%,50%)`;
+                this.drawCircle(ctx,x,y,this.petalSize,color);
+                this.divergence += 2;
+                this.c += .0005;
+                this.petalSize += .005;
+            }
+        }
+    }
+
+	const canvasWidth = 640, canvasHeight = 640;
+	let ctx;
+    const sprites = [];
+
+    function loop(){
+        sprites.forEach(p =>
+          {
+            p.draw(ctx);
+          })
+    }
+
+	function init(){
+		ctx = canvas.getContext("2d");
+		canvas.width = canvasWidth;
+		canvas.height = canvasHeight;
+		ctx.fillRect(0,0,canvasWidth,canvasHeight);
+        document.querySelector("button").onclick = () => 
+        {
+            let backColors = document.querySelector("#colors");
+            let chosenColor;
+            for(let c of backColors)
+            {
+                if(c.selected)
+                {
+                    chosenColor = c.value;
+                }
+            }
+            sprites.push(new PhylloFlower(200, 200, 137.5, 4, 200));
+            sprites.push(new PhylloFlower(450, 200, 137.1, 3, 150));
+            ctx.save();
+            ctx.fillStyle = chosenColor;
+            ctx.fillRect(0,0,canvasWidth,canvasHeight);
+            ctx.restore();
+        }
+        sprites.push(new PhylloFlower(200, 200, 137.5, 4, 200));
+        sprites.push(new PhylloFlower(450, 200, 137.1, 3, 150));
+        sprites[1].petalSize = 2;
+        loop();
+	}
+
+    window.onload = init;
+	</script>
+</head>
+<body>
+<canvas id="canvas"></canvas>
+<br>
+<button>Restart</button>
+<label for="colors">Choose a background color</label>
+<select name="colors" id="colors">
+    <option value="black">Black</option>
+    <option value="orange">Orange</option>
+    <option value="red">Red</option>
+    <option value="blue">Blue</option>
+</select>
+<p>
+    I decided to have the divergence increase by 2 while the c value increased by .0005 and the petal size increased by .005.<br>
+    The restart button resets all the variables to their default values and I also added a select that allows users to change the background color everytime they restart the loop.<br>
+    The freamrate has been increased to 60fps and the screen is now 640 x 640.
+</p>
+</body>
+</html>

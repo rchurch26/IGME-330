@@ -33,5 +33,29 @@ const makeColor = (red, green, blue, alpha = 1) => {
     }
     // .. and do nothing if the method is not supported
   };
+
+  const loadData = callback =>
+{
+    const url = "data/av-data.json";
+    const xhr = new XMLHttpRequest();
+    xhr.onload = e =>
+    {
+        console.log(`In onload - HTTP Status Code = ${e.target.status}`);
+        let json;
+        try
+        {
+            json = JSON.parse(e.target.responseText);
+        }
+        catch
+        {
+            document.querySelector("#output").innerHTML = "JSON.parse() failed!";
+            return;
+        }
+        callback(json);
+    }
+    xhr.onerror = e => console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
+    xhr.open("GET", url);
+    xhr.send();
+}
   
-  export {makeColor, getRandomColor, getLinearGradient, goFullscreen};
+  export {makeColor, getRandomColor, getLinearGradient, goFullscreen, loadData};
