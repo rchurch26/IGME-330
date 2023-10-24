@@ -10,6 +10,7 @@
 import * as utils from './utils.js';
 import * as audio from './audio.js';
 import * as visualizer from './visualizer.js';
+import { getRandomInt } from '../../../PEs/church-r-screensavor-refactored/src/utils.js';
 
 let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 
@@ -132,7 +133,10 @@ const setupUI = canvasElement => {
   }
   canvasElement.onclick = e =>
   {
-    visualizer.drawOnClick(e.clientX-canvasElement.width, e.clientY-canvasElement.height);
+    let rect = e.target.getBoundingClientRect();
+    let mouseX = e.clientX - rect.x;
+    let mouseY = e.clientY - rect.y;
+    visualizer.drawOnClick(mouseX, mouseY);
   }
 } // end setupUI
 
