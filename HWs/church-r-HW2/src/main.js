@@ -11,7 +11,6 @@ import * as utils from './utils.js';
 import * as audio from './audio.js';
 import * as visualizer from './visualizer.js';
 
-let title, sounds, info;
 let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 
 const drawParams = 
@@ -21,24 +20,17 @@ const drawParams =
   showWaveform  : false
 };
 
-const dataLoaded = json =>
-{
-  ({title, sounds, info} = json);
-}
-
-utils.loadData(dataLoaded);
-
 // 1 - here we are faking an enumeration
 const DEFAULTS = Object.freeze({
 	sound1  :  "media/New Adventure Theme.mp3"
 });
 
-const init = () => {
+const init = json => {
 	console.log("init called");
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
-  document.querySelector("#title").innerHTML = title;
-  document.querySelector("#select-track").innerHTML = sounds.map(s => `<option value="${s.file}">${s.name}</option>`).join("");
-  document.querySelector("#info").innerHTML = `<p>${info}</p>`;
+  document.querySelector("#title").innerHTML = json.title;
+  document.querySelector("#select-track").innerHTML = json.sounds.map(s => `<option value="${s.file}">${s.name}</option>`).join("");
+  document.querySelector("#info").innerHTML = `<p>${json.info}</p>`;
   audio.setupWebaudio(DEFAULTS.sound1);
 	setupUI(canvasElement);
   visualizer.setupCanvas(canvasElement,audio.analyserNode);
@@ -149,5 +141,7 @@ function loop(){
         setTimeout(loop, 1000/60);
         visualizer.draw(drawParams);
 }
+
+utils.loadData(init);
 
 export {init};

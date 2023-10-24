@@ -112,7 +112,7 @@ const draw = (params={}) => {
 	avgLoudness = avgLoudness/audioData.length;
 	sprites.forEach(s =>
 		{
-			s.petalSize = 0.05 + avgLoudness / 20;
+			s.petalSize = 0.05 + avgLoudness / 70;
 			s.draw(ctx);
 		})
 }
