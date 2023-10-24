@@ -12,6 +12,7 @@ import * as audio from './audio.js';
 import * as visualizer from './visualizer.js';
 
 let title, sounds, info;
+let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 
 const drawParams = 
 {
@@ -39,7 +40,6 @@ const init = () => {
   document.querySelector("#select-track").innerHTML = sounds.map(s => `<option value="${s.file}">${s.name}</option>`).join("");
   document.querySelector("#info").innerHTML = `<p>${info}</p>`;
   audio.setupWebaudio(DEFAULTS.sound1);
-	let canvasElement = document.querySelector("canvas"); // hookup <canvas> element
 	setupUI(canvasElement);
   visualizer.setupCanvas(canvasElement,audio.analyserNode);
   loop();
@@ -138,11 +138,15 @@ const setupUI = canvasElement => {
   {
     audio.toggleBass(e.target.checked);
   }
+  canvasElement.onclick = e =>
+  {
+    visualizer.drawOnClick(e.clientX-canvasElement.width, e.clientY-canvasElement.height);
+  }
 } // end setupUI
 
 function loop(){
     /* NOTE: This is temporary testing code that we will delete in Part II */
-        setTimeout(loop, 100/60);
+        setTimeout(loop, 1000/60);
         visualizer.draw(drawParams);
 }
 

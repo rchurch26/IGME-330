@@ -8,42 +8,9 @@
 */
 
 import * as utils from './utils.js';
+import * as circle from './classes.js';
 
-class shapeSprite
-{
-	constructor(x,y,radius,color)
-	{
-		Object.assign(this, {x,y,radius,color});
-		this.speed = 1;
-	}
-
-	update()
-	{
-		this.x += this.speed;
-		if(this.x >= canvasWidth)
-		{
-			this.x = 0;
-		}
-		else if(this.x <= 0)
-		{
-			this.x = canvasWidth;
-		}
-	}
-
-	draw(ctx)
-	{
-		ctx.save();
-		ctx.beginPath();
-		ctx.fillStyle = this.color;
-		ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-		ctx.closePath();
-		ctx.fill();
-		ctx.restore();
-	}
-}
-
-let ctx,canvasWidth,canvasHeight,gradient,analyserNode,audioData;
-let formSelect = document.querySelector("#select-form");
+let ctx,canvasWidth,canvasHeight,analyserNode,audioData;
 const sprites = [];
 
 const setupCanvas = (canvasElement,analyserNodeRef) => {
@@ -51,15 +18,13 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 	ctx = canvasElement.getContext("2d");
 	canvasWidth = canvasElement.width;
 	canvasHeight = canvasElement.height;
-	// create a gradient that runs top to bottom
-	gradient = utils.getLinearGradient(ctx,0,0,0,canvasHeight,[{percent:1,color:"black"},{percent:1,color:"blue"},{percent:0.1,color:"grey"},{percent:1,color:"red"},{percent:1,color:"orange"}]);
 	// keep a reference to the analyser node
 	analyserNode = analyserNodeRef;
 	// this is the array where the analyser data will be stored
 	audioData = new Uint8Array(analyserNode.fftSize/2);
 	//Create Sprites
-	sprites.push(new shapeSprite(0,100,10,"orange"));
-	sprites.push(new shapeSprite(0,300,7,"red"));
+	sprites.push(new circle.circleSprite(200, 200, 137.4, 2, audioData.length/2));
+    sprites.push(new circle.circleSprite(450, 200, 137.1, 1, audioData.length/2));
 }
 
 const draw = (params={}) => {
@@ -145,14 +110,18 @@ const draw = (params={}) => {
 		ctx.restore();
 	}
 	avgLoudness = avgLoudness/audioData.length;
-	console.log(avgLoudness);
 	sprites.forEach(s =>
 		{
-			s.speed = 1 + avgLoudness/50;
-			s.radius = 10 + avgLoudness/10;
-			s.update();
+			s.petalSize = 0.05 + avgLoudness / 20;
 			s.draw(ctx);
 		})
 }
 
-export {setupCanvas,draw};
+const drawOnClick = (x,y) =>
+{
+	sprites.push(new circle.circleSprite(x,y,135,1,audioData.length/2));
+	let latest = sprites.length - 1;
+	sprites[latest].draw(ctx);
+}
+
+export {setupCanvas,draw,drawOnClick};
