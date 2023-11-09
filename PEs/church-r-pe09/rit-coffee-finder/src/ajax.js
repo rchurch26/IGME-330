@@ -10,11 +10,11 @@ const downloadFile = (url,callback) =>
         console.log(`headers = ${headers}`);
         console.log(`jsonString = ${jsonString}`);
         callback(jsonString);
-
-        xhr.open("GET", url);
-
-        xhr.send();
     }
+
+    xhr.open("GET", url);
+
+    xhr.send();
 }
 
 export{downloadFile};

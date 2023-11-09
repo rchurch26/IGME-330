@@ -1,0 +1,19 @@
+{
+    "title": "Audio Visualizer",
+    "sounds": 
+    [
+        {
+            "name": "New Adventure Theme",
+            "file": "media/New Adventure Theme.mp3"
+        }, 
+        {
+            "name": "Peanuts Theme",
+            "file": "media/Peanuts Theme.mp3"
+        }, 
+        {
+            "name": "The Picard Song",
+            "file": "media/The Picard Song.mp3"
+        }
+    ],
+    "info": "My audio visualizer allows users to mess around with different sound and visual settings. Each checkbox represents a different aspect of the site that they can change from being able to see the audio bars to adding more bass to the audio.<br>Users can also adjust the volume of the audio. There are also circles that float around and react to the media being played. Players can add more circles by clicking on the canvas."
+}
