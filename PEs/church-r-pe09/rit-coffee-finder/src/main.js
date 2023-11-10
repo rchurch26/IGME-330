@@ -19,7 +19,7 @@ const loadPOI = () =>
 
         for(let p of poi) 
         {
-            map.addmarker(p.coordinates, p.title, "A POI!", "marker");
+            map.addmarker(p.coordinates, p.title, "A POI!", "poi");
         }
     }
 
