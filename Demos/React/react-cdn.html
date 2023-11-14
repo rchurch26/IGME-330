@@ -29,10 +29,10 @@
       // `Footer` component
       // This utilizes a `year` attribute that is passed in when the component is created
       // note the explicit `return` and the required use of parens to "wrap" the JSX
-      const Footer = props => {
+      const Footer = ({year, name}) => {
         return (
           <footer>
-            <p>&copy; {props.year} {props.name}</p>
+            <p>&copy; {year} {name}</p>
           </footer>
         );
       };
