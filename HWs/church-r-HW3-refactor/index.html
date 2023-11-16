@@ -2,12 +2,24 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <title>Audio Visualizer</title>
+  <title>Audio Visualizer App</title>
   <link href="./styles/default-styles.css" type="text/css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
   <script src="./src/loader.js" type="module"></script>
 </head>
 <body>
 <main>
+  <nav class="navbar has-shadow is-white">
+    <!-- logo / brand -->
+    <div class="navbar-brand">
+      <a class="navbar-item">
+        <img src="media/logos/ear-listen-solid.svg" alt="site logo" style="max-height: 70px" class="py-2 px-2">
+      </a>
+      <a class="navbar-burger" id="burger">
+        <span></span>
+        <span></span>
+      </a>
+    </div>
   <h1 id="title"></h1>
   <canvas width="800" height="400"></canvas>
   <div id="controls">
@@ -40,9 +52,6 @@
         </select>
       </label>
     </section>
-  </div>
-  <div id="info">
-
   </div>
 </main>
 </body>

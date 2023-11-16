@@ -31,7 +31,6 @@ const init = json => {
 	console.log(`Testing utils.getRandomColor() import: ${utils.getRandomColor()}`);
   document.querySelector("#title").innerHTML = json.title;
   document.querySelector("#select-track").innerHTML = json.sounds.map(s => `<option value="${s.file}">${s.name}</option>`).join("");
-  document.querySelector("#info").innerHTML = `<p>${json.info}</p>`;
   audio.setupWebaudio(DEFAULTS.sound1);
 	setupUI(canvasElement);
   visualizer.setupCanvas(canvasElement,audio.analyserNode);
