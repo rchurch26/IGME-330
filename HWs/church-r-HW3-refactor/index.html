@@ -5,6 +5,7 @@
   <title>Audio Visualizer App</title>
   <link href="./styles/default-styles.css" type="text/css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="./src/loader.js" type="module"></script>
 </head>
 <body>
@@ -12,48 +13,66 @@
   <nav class="navbar has-shadow is-white">
     <!-- logo / brand -->
     <div class="navbar-brand">
-      <a class="navbar-item">
-        <img src="media/logos/ear-listen-solid.svg" alt="site logo" style="max-height: 70px" class="py-2 px-2">
+      <a class="navbar-item" href="about.html">
+        <i class="fa fa-solid fa-music"></i>
       </a>
       <a class="navbar-burger" id="burger">
         <span></span>
         <span></span>
       </a>
     </div>
-  <h1 id="title"></h1>
-  <canvas width="800" height="400"></canvas>
-  <div id="controls">
-    <section>
-      <button id="btn-play" data-playing="no"></button>
-      <button id="btn-fs">Full Screen</button>
-		
-      <label>Track: 
-        <select id="select-track">
-          
-        </select>
-      </label>
-    </section>
-		
-    <section>
-      Volume: <input type="range" id="slider-volume" min="0" max="2" value="1" step="0.01">
-      <span id="label-volume">???</span>
-    </section>
-    <section>
-      <span><input type="checkbox" id="cb-bars" checked><label for="cb-bars">Show Bars</label></span>
-      <span><input type="checkbox" id="cb-circles" checked><label for="cb-circles">Show Circles</label></span>
-      <span><input type="checkbox" id="cb-treble"><label for="cb-treble">Treble Filter</label></span>
-		  <span><input type="checkbox" id="cb-bass"><label for="cb-bass">Bass Filter</label></span>
-    </section>
-    <section>
-      <label> Visualization Form:
-        <select id="select-form">
-          <option value="waveform-data">Waveform Data</option>
-          <option value="frequency-data" selected>Frequency Data</option>
-        </select>
-      </label>
-    </section>
-  </div>
+    <div class="navbar-menu" id="nav-links">
+      <div class="navbar-start">
+        <a class="navbar-item is-hoverable" href="about.html">
+          About
+        </a>
+      
+        <a class="navbar-item has-text-weight-bold">
+          Audio Visualizer
+        </a>
+      </div> <!-- end navbar-start -->
+    </div>
+  </nav>
+  <div class="column has-text-centered has-background-info">
+    <div>
+      <h1 class="title has-text-white" id="title"></h1>
+      <canvas width="800" height="400"></canvas>
+      <div class="has-text-white" id="controls">
+        <section>
+          <button id="btn-play" data-playing="no"></button>
+          <button id="btn-fs">Full Screen</button>
+        
+          <label>Track: 
+            <select id="select-track">
+              
+            </select>
+          </label>
+        </section>
+        
+        <section>
+          Volume: <input type="range" id="slider-volume" min="0" max="2" value="1" step="0.01">
+          <span id="label-volume">???</span>
+        </section>
+        <section>
+          <span><input type="checkbox" id="cb-bars" checked><label for="cb-bars">Show Bars</label></span>
+          <span><input type="checkbox" id="cb-circles" checked><label for="cb-circles">Show Circles</label></span>
+          <span><input type="checkbox" id="cb-treble"><label for="cb-treble">Treble Filter</label></span>
+          <span><input type="checkbox" id="cb-bass"><label for="cb-bass">Bass Filter</label></span>
+        </section>
+        <section>
+          <label> Visualization Form:
+            <select id="select-form">
+              <option value="waveform-data">Waveform Data</option>
+              <option value="frequency-data" selected>Frequency Data</option>
+            </select>
+          </label>
+        </section>
+      </div>
+    </div>
+    <div class="hero-footer has-text-white">Contact: rac3090@rit.edu</div>
+  </section>
 </main>
+<script src="./src/hamburger.js"></script>
 </body>
 <!-- <script src="dist/bundle.js"></script> -->
 </html>
