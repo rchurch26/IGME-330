@@ -7,13 +7,13 @@
 	  - maybe a better name for this file/module would be *visualizer.js* ?
 */
 
-import * as utils from './utils.js';
-import * as circle from './classes.js';
-
-let ctx,canvasWidth,canvasHeight,analyserNode,audioData;
+import * as utils from './utils';
+import DrawParams from './interfaces/drawParams.interface';
+import circleSprite from './classes/circleSprite';
+let ctx:CanvasRenderingContext2D,canvasWidth:number,canvasHeight:number,analyserNode:AnalyserNode,audioData:Uint8Array;
 const sprites = [];
 
-const setupCanvas = (canvasElement,analyserNodeRef) => {
+const setupCanvas = (canvasElement:HTMLCanvasElement,analyserNodeRef:AnalyserNode) => {
 	// create drawing context
 	ctx = canvasElement.getContext("2d");
 	canvasWidth = canvasElement.width;
@@ -23,11 +23,11 @@ const setupCanvas = (canvasElement,analyserNodeRef) => {
 	// this is the array where the analyser data will be stored
 	audioData = new Uint8Array(analyserNode.fftSize/2);
 	//Create Sprites
-	sprites.push(new circle.circleSprite(200, 200, 137.4, 2, audioData.length/2));
-    sprites.push(new circle.circleSprite(450, 200, 137.1, 1, audioData.length/2));
+	sprites.push(new circleSprite(200, 200, 137.4, 2, audioData.length/2));
+    sprites.push(new circleSprite(450, 200, 137.1, 1, audioData.length/2));
 }
 
-const draw = (params={}) => {
+const draw = (params:DrawParams) => {
 	let avgLoudness = 0;
   // 1 - populate the audioData array with the frequency data from the analyserNode
 	// notice these arrays are passed "by reference" 
@@ -117,9 +117,9 @@ const draw = (params={}) => {
 		})
 }
 
-const drawOnClick = (x,y) =>
+const drawOnClick = (x:number,y:number) =>
 {
-	sprites.push(new circle.circleSprite(x,y,135,1,audioData.length/2));
+	sprites.push(new circleSprite(x,y,135,1,audioData.length/2));
 	let latest = sprites.length - 1;
 	sprites[latest].draw(ctx);
 }

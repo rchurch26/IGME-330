@@ -1,8 +1,10 @@
-const makeColor = (red, green, blue, alpha = 1) => {
+import ColorStop from "./interfaces/colorStop.interface";
+
+const makeColor = (red:number, green:number, blue:number, alpha:number = 1) => {
     return `rgba(${red},${green},${blue},${alpha})`;
   };
   
-  const getRandom = (min, max) => {
+  const getRandom = (min:number, max:number) => {
     return Math.random() * (max - min) + min;
   };
   
@@ -12,7 +14,7 @@ const makeColor = (red, green, blue, alpha = 1) => {
     return `rgba(${getByte()},${getByte()},${getByte()},1)`;
   };
   
-  const getLinearGradient = (ctx,startX,startY,endX,endY,colorStops) => {
+  const getLinearGradient = (ctx:CanvasRenderingContext2D,startX:number,startY:number,endX:number,endY:number,colorStops:ColorStop[]) => {
     let lg = ctx.createLinearGradient(startX,startY,endX,endY);
     for(let stop of colorStops){
       lg.addColorStop(stop.percent,stop.color);
@@ -20,31 +22,20 @@ const makeColor = (red, green, blue, alpha = 1) => {
     return lg;
   };
   
-  // https://developer.mozilla.org/en-US/docs/Web/API/Fullscreen_API
-  const goFullscreen = (element) => {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.mozRequestFullscreen) {
-      element.mozRequestFullscreen();
-    } else if (element.mozRequestFullScreen) { // camel-cased 'S' was changed to 's' in spec
-      element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullscreen) {
-      element.webkitRequestFullscreen();
-    }
-    // .. and do nothing if the method is not supported
-  };
+  const goFullscreen = (element:HTMLElement) => element.requestFullscreen();
 
-  const loadData = callback =>
+  const loadData = (callback:Function) =>
 {
     const url = "data/av-data.json";
     const xhr = new XMLHttpRequest();
     xhr.onload = e =>
     {
-        console.log(`In onload - HTTP Status Code = ${e.target.status}`);
+        const target = e.target as XMLHttpRequest;
+        console.log(`In onload - HTTP Status Code = ${target.status}`);
         let json;
         try
         {
-            json = JSON.parse(e.target.responseText);
+            json = JSON.parse(target.responseText);
         }
         catch
         {
@@ -53,7 +44,11 @@ const makeColor = (red, green, blue, alpha = 1) => {
         }
         callback(json);
     }
-    xhr.onerror = e => console.log(`In onerror - HTTP Status Code = ${e.target.status}`);
+    xhr.onerror = e => 
+    {
+      const target = e.target as XMLHttpRequest;
+      console.log(`In onerror - HTTP Status Code = ${target.status}`);
+    }
     xhr.open("GET", url);
     xhr.send();
 }

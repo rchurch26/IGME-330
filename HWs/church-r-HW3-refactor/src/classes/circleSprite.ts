@@ -1,5 +1,12 @@
-class circleSprite
+export default class circleSprite
 {
+    centerX:number;
+    centerY:number;
+    divergence:number;
+    c:number;
+    lifetime:number;
+    speed:number;
+    petalSize:number;
 	constructor(centerX,centerY,divergence,c,lifetime=100)
 	{
 		Object.assign(this, {centerX,centerY,divergence,c,lifetime});
@@ -7,11 +14,11 @@ class circleSprite
         this.petalSize = 2;
 	}
 
-    dtr(degrees){
+    dtr(degrees:number){
         return degrees * (Math.PI/180);
     }
 
-    drawCircle(ctx,x,y,radius,color){
+    drawCircle(ctx:CanvasRenderingContext2D,x:number,y:number,radius:number,color:string){
         ctx.save();
         ctx.fillStyle = color;
         ctx.beginPath();
@@ -21,7 +28,7 @@ class circleSprite
         ctx.restore();
     }
 
-	draw(ctx)
+	draw(ctx:CanvasRenderingContext2D)
 	{
 		for(let n=0; n < this.lifetime; n++)
             {
@@ -38,5 +45,3 @@ class circleSprite
             }
 	}
 }
-
-export{circleSprite}
