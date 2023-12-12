@@ -4,7 +4,7 @@ import { getDatabase, ref, set, onValue, increment } from  "https://www.gstatic.
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyADnzyVAXG1tzQcG9ls25VSAK2FXM2cPkE",
+  apiKey: "AIzaSyADnzyVAXG1tzQcG9ls25VSAK2FXM2cPkE",
 	authDomain: "high-scores-cbbc5.firebaseapp.com",
 	projectId: "high-scores-cbbc5",
 	storageBucket: "high-scores-cbbc5.appspot.com",
@@ -17,15 +17,12 @@ const app = initializeApp(firebaseConfig);
 console.log(app);
 const db = getDatabase();
 
-const favoritesPath = "favorites";
+const parksPath = "parks/";
 
 const pushFavorite = (id, inc) => {
-    const favRef = ref(db, `${favoritesPath}/${id}`);
-    set(favRef, {
-      id,
-      likes: increment(inc)
-  });
+    const favRef = ref(db, `${parksPath}${id}`);
+    set(favRef, {id, likes: increment(inc)});
   };
 
 // You might get awway with exporting fewer functions than this
-export { db, favoritesPath, ref, set, pushFavorite, onValue };
+export { db, ref, set, parksPath, pushFavorite, onValue };

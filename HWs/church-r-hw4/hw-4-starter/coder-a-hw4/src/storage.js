@@ -2,6 +2,8 @@
 // if you put this on banjo, change `abc1234` to your banjo account name
 const storeName = "rac3090-park-finder";
 
+const isObject = obj => typeof obj === 'object' && obj !== null && !Array.isArray(obj);
+
 // a private (to this module) helper function
 // it will load in a string from localStorage and convert it to a JSON object
 // if the string is empty or otherwise not "parseable" an
@@ -12,6 +14,7 @@ const loadJSONFromLocalStorage = () => {
   try{
     json = JSON.parse(string);
     if(!json) throw new Error("json is null!");
+    if(!isObject(json)) throw new Error("json is not an object!");
   }catch(error){
     console.log(`ERROR: ${error} with string: ${string}`);
     json = {};

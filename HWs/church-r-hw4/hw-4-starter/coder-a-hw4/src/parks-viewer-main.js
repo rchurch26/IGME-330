@@ -1,4 +1,4 @@
-import { onValue, favoritesPath } from "./firebase.js";
+import { db, ref, parksPath, onValue } from "./firebase.js";
 
 const parks = {
     "p79"   : "Letchworth State Park",
@@ -17,13 +17,13 @@ const parks = {
   const favoritesChanged = (snapshot) => {
     // TODO: clear #park-list
     document.querySelector("#park-list").innerHTML = "";
-    snapshot.forEach(fav => {
-      const childKey = fav.key;
-      const childData = fav.val();
+    snapshot.forEach(park => {
+      const childKey = park.key;
+      const childData = park.val();
       console.log(childKey,childData);
       // TODO: update #favoritesList
-      document.querySelector("#park-list").innerHTML += `<li>${childKey} Likes: ${childData.likes}</li>`;
+      document.querySelector("#park-list").innerHTML += `<li>${parks[childKey]}(${childKey}) Likes: ${childData.likes}</li>`;
     });
   };
-
-  onValue(favoritesPath, favoritesChanged);
+  
+  onValue(ref(db,parksPath), favoritesChanged);
